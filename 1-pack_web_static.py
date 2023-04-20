@@ -1,16 +1,21 @@
+#!/usr/bin/python3
+'''Write a Fabric script that generates a .tgz archive '''
+
 from fabric.api import local
 from datetime import datetime
-import os
 
+from fabric.decorators import runs_once
+
+
+@runs_once
 def do_pack():
-    '''Create a tar gzipped archive of the web_static folder'''
-    try:
-        if not os.path.exists('versions'):
-            os.makedirs('versions')
-        now = datetime.now().strftime('%Y%m%d%H%M%S')
-        archive_path = 'versions/web_static_{}.tgz'.format(now)
-        local('tar -czvf {} web_static'.format(archive_path))
-        print('web_static packed: {} -> {}Bytes'.format(archive_path, os.path.getsize(archive_path)))
-        return archive_path
-    except:
+    '''generates .tgz archive from the contents of the web_static folder of AirBnB_v2'''
+    local("mkdir -p versions")
+    path = ("versions/web_static_{}.tgz"
+            .format(datetime.strftime(datetime.now(), "%Y%m%d%H%M%S")))
+    result = local("tar -cvzf {} web_static"
+                   .format(path))
+
+    if result.failed:
         return None
+    return path
