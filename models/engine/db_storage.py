@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''database storage engine'''
+'''Database storage engine'''
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -43,20 +43,22 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        '''query on the current db session all cls objects'''
-        dct = {}
-        if cls is None:
-            for c in classes.values():
-                objs = self.__session.query(c).all()
-                for obj in objs:
-                    key = obj.__class__.__name__ + '.' + obj.id
-                    dct[key] = obj
+        """query on the current database session"""
+        objs = {}
+        classes = ["State", "City"]
+        if cls:
+            if isinstance(cls, str):
+                cls = eval(cls)
+            query = self.__session.query(cls)
         else:
-            objs = self.__session.query(cls).all()
-            for obj in objs:
-                key = obj.__class__.__name__ + '.' + obj.id
-                dct[key] = obj
-        return dct
+            query = self.__session.query(State).all()
+            for cls in classes:
+                query = query + self.__session.query(eval(cls)).all()
+
+        for obj in query:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            objs[key] = obj
+        return objs
 
     def new(self, obj):
         '''adds the obj to the current db session'''
