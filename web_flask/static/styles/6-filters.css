@@ -14,12 +14,14 @@
     width: 25%;
 }
 .popover {
-    visibility: hidden;
-    width: 100%;
-    border: 1px solid #DDDDDD;
-    border-radius: 4px;
-    background: #FAFAFA;
-    padding-bottom: 25px;
+  visibility: hidden;
+  width: 100%;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  background: #FAFAFA;
+  max-height: 300px; 
+  overflow-y: auto; 
+  padding-bottom: 25px;
 }
 .amenities .popover {
     padding: 20px 0;
