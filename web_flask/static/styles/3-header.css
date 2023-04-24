@@ -1,0 +1,9 @@
+header. logo{
+	background: url(..images/logo.png);
+	left: 20px;
+header {
+	background: white;
+	height: 70px;
+	width: 100%;
+	border-bottom: 1px #CCCCCC
+}
